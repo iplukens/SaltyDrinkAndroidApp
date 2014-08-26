@@ -1,5 +1,6 @@
 package com.example.saltydrinkandroidapp;
 
+import com.example.saltydrinkandroidapp.BettingSeekBar.OnBettingSeekBarChangeListener;
 import com.example.saltydrinkandroidapp.util.SystemUiHider;
 
 import android.annotation.TargetApi;
@@ -7,10 +8,12 @@ import android.app.Activity;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.view.ViewGroup;
 import android.widget.MediaController;
 import android.widget.VideoView;
 import android.util.Base64;
 import android.util.JsonReader;
+import android.util.Log;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -37,6 +40,7 @@ import org.apache.http.HttpResponse;
  * @see SystemUiHider
  */
 public class SaltyDrinker extends Activity {
+	protected static final String TAG = "Salty";
 	public static HttpEntity latestNetworkResponse;
 	private String twitchStreamURL;
 
@@ -61,6 +65,13 @@ public class SaltyDrinker extends Activity {
 
 		  videoView.requestFocus();
 		  videoView.start();
+		  try {
+			Client client = new Client("192.168.0.105", 11111);
+			client.execute();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}	  
 	}
 
 	private void setupVideo() throws IOException, InvalidKeyException, NoSuchAlgorithmException, InterruptedException, ExecutionException {

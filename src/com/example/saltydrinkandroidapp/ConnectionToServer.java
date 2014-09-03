@@ -3,18 +3,19 @@ package com.example.saltydrinkandroidapp;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 import java.net.Socket;
 import java.util.concurrent.LinkedBlockingQueue;
 
 public class ConnectionToServer {
 	 ObjectInputStream in;
-     PrintWriter out;
+	 ObjectOutputStream out;
      Socket socket;
      
      ConnectionToServer(Socket socket) throws IOException {
          this.socket = socket;
-         out = new PrintWriter(new ObjectOutputStream(socket.getOutputStream()), true);
+         out =new ObjectOutputStream(socket.getOutputStream());
          in = new ObjectInputStream(socket.getInputStream());
 
 
@@ -40,8 +41,9 @@ public class ConnectionToServer {
     	 return true;
      }
      
-     public void write(String obj) {
-         out.print(obj);
+     public void write(String obj) throws IOException {
+         out.writeObject(obj);
+         out.flush();
      }
 
 

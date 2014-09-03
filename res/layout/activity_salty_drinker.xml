@@ -1,4 +1,4 @@
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+	<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -12,6 +12,16 @@
         android:layout_height="0dp"
         android:layout_gravity="center"
         android:layout_weight="0.5" />
+
+	 <Button
+	     android:id="@+id/bettingDirection"
+     	 android:layout_height="0dp"
+         android:layout_width="fill_parent"
+         android:text="MYBOY"
+         android:onClick="changeBet"
+         android:background="#FF0000"
+         android:layout_weight="0.1" />
+
 
     
 </LinearLayout>

@@ -10,7 +10,7 @@ import org.apache.http.HttpResponse;
 import android.os.AsyncTask;
 
 public class Client extends AsyncTask<Void, Void, Void> {
-	private ConnectionToServer server;
+	private static ConnectionToServer server;
 	private static LinkedBlockingQueue<Object> messages = new LinkedBlockingQueue<Object>();
 	private Socket socket;
 	private int port;
@@ -24,11 +24,12 @@ public class Client extends AsyncTask<Void, Void, Void> {
 
 			while (server.getActive()) {
 				Object message = messages.poll();
-				// Do some handling here...
-				if(message != null){
-				System.out.println("Message Received: " + message);
+				if (message != null) {
+					ServerResponse response = ServerResponse.valueOf((String) message);
+					GameModel.instanceOf().update(response);
 				}
 			}
+
 		} catch (UnknownHostException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -44,8 +45,13 @@ public class Client extends AsyncTask<Void, Void, Void> {
 		this.port = port;
 	}
 
-	public void send(String obj) {
-		server.write(obj);
+	public static void send(String obj) {
+		try {
+			server.write(obj);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 
 	public static void enqueueMessage(Object obj) {

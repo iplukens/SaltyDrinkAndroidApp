@@ -1,37 +1,26 @@
 package com.example.saltydrinkandroidapp;
 
-import com.example.saltydrinkandroidapp.BettingSeekBar.OnBettingSeekBarChangeListener;
-import com.example.saltydrinkandroidapp.util.SystemUiHider;
-
-import android.annotation.TargetApi;
-import android.app.Activity;
-import android.net.Uri;
-import android.os.AsyncTask;
-import android.os.Bundle;
-import android.view.ViewGroup;
-import android.widget.MediaController;
-import android.widget.VideoView;
-import android.util.Base64;
-import android.util.JsonReader;
-import android.util.Log;
-
 import java.io.BufferedReader;
 import java.io.IOException;
-import java.net.MalformedURLException;
-import java.net.URL;
-import java.net.URLConnection; 
 import java.net.URLEncoder;
 import java.security.InvalidKeyException;
-import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.concurrent.ExecutionException;
 
-import javax.crypto.Mac;
-import javax.crypto.SecretKey;
-import javax.crypto.spec.SecretKeySpec;
-
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
+
+import android.app.Activity;
+import android.graphics.Color;
+import android.net.Uri;
+import android.os.AsyncTask;
+import android.os.Bundle;
+import android.view.View;
+import android.widget.Button;
+import android.widget.MediaController;
+import android.widget.VideoView;
+
+import com.example.saltydrinkandroidapp.util.SystemUiHider;
 
 /**
  * An example full-screen activity that shows and hides the system UI (i.e.
@@ -41,7 +30,6 @@ import org.apache.http.HttpResponse;
  */
 public class SaltyDrinker extends Activity {
 	protected static final String TAG = "Salty";
-	public static HttpEntity latestNetworkResponse;
 	private String twitchStreamURL;
 
 	@Override
@@ -51,6 +39,7 @@ public class SaltyDrinker extends Activity {
 
 		 try {
 			setupVideo();
+			GameModel.instanceOf().setupInitialGameState();
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -69,16 +58,14 @@ public class SaltyDrinker extends Activity {
 			Client client = new Client("192.168.0.105", 11111);
 			client.execute();
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}	  
 	}
 
 	private void setupVideo() throws IOException, InvalidKeyException, NoSuchAlgorithmException, InterruptedException, ExecutionException {
 
-		
 		AsyncTask<String, Void, HttpResponse> task = new NetworkTask().execute("http://api.twitch.tv/api/channels/saltybet/access_token");
-		//JsonReader reader = new JsonReader(new BufferedReader(new java.io.InputStreamReader(connection.getInputStream())));
+		
 		HttpResponse response = task.get();
 		BufferedReader serverResponse = new BufferedReader(new java.io.InputStreamReader(response.getEntity().getContent()));
 		String line = serverResponse.readLine();
@@ -97,20 +84,17 @@ public class SaltyDrinker extends Activity {
 	    		break;
 	    	}
 	    }
-		//}
-	    //serverResponse.close();
-		//VideoView videoView = (VideoView)findViewById(R.id.twitchVideo);
-		//  MediaController mc = new MediaController(this);
-		//  videoView.setMediaController(mc);
-		  
-		//  String webAddress = "http://www.twitch.tv/saltybet";
-		//  Uri uri = Uri.parse(webAddress);
-
-		//  videoView.setVideoURI(uri);
-
-		//  videoView.requestFocus();
-		//  videoView.start();
-		
+	    serverResponse.close();		
 	}
 
+	public void changeBet(View view){
+		BetColor color = GameModel.instanceOf().changeBet();
+		Button button = (Button) findViewById(R.id.bettingDirection);
+		if(color == BetColor.RED){
+			button.setBackgroundColor(Color.parseColor("#FF0000"));
+		}
+		else {
+			button.setBackgroundColor(Color.parseColor("#0000FF"));
+		}
+	}
 }

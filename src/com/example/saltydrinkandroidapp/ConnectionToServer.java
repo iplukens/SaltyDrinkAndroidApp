@@ -8,6 +8,9 @@ import java.io.PrintWriter;
 import java.net.Socket;
 import java.util.concurrent.LinkedBlockingQueue;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 public class ConnectionToServer {
 	 ObjectInputStream in;
 	 ObjectOutputStream out;
@@ -25,10 +28,16 @@ public class ConnectionToServer {
                      try{
                          Object obj = in.readObject();
                          if(obj!= null) {
-                         Client.enqueueMessage(obj);
+                         JSONObject json = new JSONObject((String)obj); //Turn obj back to JSONObject
+                         Client.enqueueMessage(json);
                          }
                      }
-                     catch(IOException | ClassNotFoundException e){ e.printStackTrace(); }
+                     catch(IOException | ClassNotFoundException e){ 
+                    	 e.printStackTrace();  
+                     } catch (JSONException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
                  }
              }
          };
@@ -41,8 +50,8 @@ public class ConnectionToServer {
     	 return true;
      }
      
-     public void write(String obj) throws IOException {
-         out.writeObject(obj);
+     public void write(JSONObject response) throws IOException {
+         out.writeObject(response.toString());
          out.flush();
      }
 

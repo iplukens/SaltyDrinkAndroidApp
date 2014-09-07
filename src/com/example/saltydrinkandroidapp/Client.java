@@ -6,6 +6,8 @@ import java.net.UnknownHostException;
 import java.util.concurrent.LinkedBlockingQueue;
 
 import org.apache.http.HttpResponse;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import android.os.AsyncTask;
 
@@ -25,8 +27,9 @@ public class Client extends AsyncTask<Void, Void, Void> {
 			while (server.getActive()) {
 				Object message = messages.poll();
 				if (message != null) {
-					ServerResponse response = ServerResponse.valueOf((String) message);
+					JSONObject response = (JSONObject) message;
 					GameModel.instanceOf().update(response);
+					
 				}
 			}
 
@@ -34,6 +37,9 @@ public class Client extends AsyncTask<Void, Void, Void> {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}  catch (JSONException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
@@ -45,9 +51,9 @@ public class Client extends AsyncTask<Void, Void, Void> {
 		this.port = port;
 	}
 
-	public static void send(String obj) {
+	public static void send(JSONObject response) {
 		try {
-			server.write(obj);
+			server.write(response);
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

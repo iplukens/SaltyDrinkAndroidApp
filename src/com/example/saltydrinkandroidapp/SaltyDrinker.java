@@ -55,7 +55,7 @@ public class SaltyDrinker extends Activity {
 		  videoView.requestFocus();
 		  videoView.start();
 		  try {
-			Client client = new Client("192.168.0.105", 11111);
+			Client client = new Client("192.168.0.106", 11112);
 			client.execute();
 		} catch (IOException e) {
 			e.printStackTrace();
@@ -72,7 +72,6 @@ public class SaltyDrinker extends Activity {
 	    String token = URLEncoder.encode(line.split("\",\"sig")[0].split("token\":\"")[1].replaceAll("\\\\", ""), "UTF-8");
 	    String sig = URLEncoder.encode(line.split("\",\"mobile_restricted")[0].split("sig\":\"")[1], "UTF-8");
 		serverResponse.close(); 
-		String test = "http://usher.twitch.tv/select/saltybet.json?nauthsig=" + sig + "&nauth=" + token + "&allow_source=true";
 		task = new NetworkTask().execute("http://usher.twitch.tv/select/saltybet.json?nauthsig=" + sig + "&nauth=" + token + "&allow_source=true");
 		response = task.get();
 		serverResponse = new BufferedReader(new java.io.InputStreamReader(response.getEntity().getContent()));

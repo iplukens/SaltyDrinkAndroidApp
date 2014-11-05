@@ -18,9 +18,8 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.MediaController;
+import android.widget.TextView;
 import android.widget.VideoView;
-
-import com.example.saltydrinkandroidapp.util.SystemUiHider;
 
 /**
  * An example full-screen activity that shows and hides the system UI (i.e.
@@ -31,15 +30,15 @@ import com.example.saltydrinkandroidapp.util.SystemUiHider;
 public class SaltyDrinker extends Activity {
 	protected static final String TAG = "Salty";
 	private String twitchStreamURL;
-
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_salty_drinker);
-
+		GameController.instanceOf().setContextAndSetupController(this);
+		ViewController.instanceOf().setContext(this);
+		
 		 try {
 			setupVideo();
-			GameModel.instanceOf().setupInitialGameState();
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -55,7 +54,7 @@ public class SaltyDrinker extends Activity {
 		  videoView.requestFocus();
 		  videoView.start();
 		  try {
-			Client client = new Client("192.168.0.106", 11112);
+			Client client = new Client("192.168.0.100", 11112);
 			client.execute();
 		} catch (IOException e) {
 			e.printStackTrace();
@@ -84,16 +83,5 @@ public class SaltyDrinker extends Activity {
 	    	}
 	    }
 	    serverResponse.close();		
-	}
-
-	public void changeBet(View view){
-		BetColor color = GameModel.instanceOf().changeBet();
-		Button button = (Button) findViewById(R.id.bettingDirection);
-		if(color == BetColor.RED){
-			button.setBackgroundColor(Color.parseColor("#FF0000"));
-		}
-		else {
-			button.setBackgroundColor(Color.parseColor("#0000FF"));
-		}
-	}
+	}	
 }

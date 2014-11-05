@@ -15,6 +15,7 @@ public class ConnectionToServer {
 	 ObjectInputStream in;
 	 ObjectOutputStream out;
      Socket socket;
+     boolean run = true;
      
      ConnectionToServer(Socket socket) throws IOException {
          this.socket = socket;
@@ -24,7 +25,7 @@ public class ConnectionToServer {
 
          Thread read = new Thread(){
              public void run(){
-                 while(true){
+                 while(run){
                      try{
                          Object obj = in.readObject();
                          if(obj!= null) {
@@ -32,11 +33,17 @@ public class ConnectionToServer {
                          Client.enqueueMessage(json);
                          }
                      }
-                     catch(IOException | ClassNotFoundException e){ 
-                    	 e.printStackTrace();  
+                     catch(IOException e){ 
+                    	 e.printStackTrace(); 
+                    	 run = false;
+                    	 
                      } catch (JSONException e) {
 						// TODO Auto-generated catch block
+                    	run = false;
 						e.printStackTrace();
+					} catch (ClassNotFoundException e){
+						 e.printStackTrace(); 
+                    	 run = false;
 					}
                  }
              }

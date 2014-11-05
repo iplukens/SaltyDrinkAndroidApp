@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="horizontal"
+    android:id="@+id/headerMenu" >
+    
+	<TextView
+        android:id="@+id/welcomeHeaderText"
+        android:layout_width="0dp"
+        android:layout_height="fill_parent"
+        android:layout_weight="0.1"
+        android:background="#CCCCCC"
+        android:text="Welcome, "
+        android:textColor="#FFFFFF"
+        android:gravity="center"/>
+	
+	<TextView
+        android:id="@+id/latestResults"
+        android:layout_width="0dp"
+        android:layout_height="fill_parent"
+        android:layout_weight="0.1"
+        android:background="#CCCCCC"
+        android:text="Player"
+        android:textColor="#FFFFFF"
+        android:gravity="center"/>
+	
+	 <ImageButton
+        android:id="@+id/editNameButton"
+        android:src="@drawable/edit_button"
+        android:layout_height="fill_parent"
+        android:layout_width="0dp"
+        android:layout_weight="0.1"
+        android:background="#CCCCCC" />
+	 
+	 <ImageButton
+	    android:id="@+id/donateButton"
+        android:src="@drawable/donation_button"
+        android:layout_height="fill_parent"
+        android:layout_width="0dp"
+        android:layout_weight="0.1"
+        android:layout_gravity="right"
+        android:background="#CCCCCC" />
+</LinearLayout>

@@ -1,5 +1,5 @@
 package com.example.saltydrinkandroidapp;
 
 public enum ServerResponse {
-	RESULT;
+	OPPONENT_BID, RESULT, ROOM_STATE, TOKEN, MATCH_UP;
 }

@@ -1,8 +1,13 @@
 package com.example.saltydrinkandroidapp;
 
+import java.lang.ref.WeakReference;
+
 import android.app.Activity;
 import android.content.Context;
 import android.graphics.Color;
+import android.os.Handler;
+import android.os.Looper;
+import android.os.Message;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
@@ -14,26 +19,31 @@ import android.widget.TextView;
  * @author Chris
  * 
  */
-public class GameController {
-	static GameController instance;
+public class GameHandler {
+	static GameHandler instance;
 	private Activity context;
 	private Button changeBetButton;
 	private ImageButton editNameButton;
 	private boolean isDialogDisplayed = false;
-	
-	public static GameController instanceOf() {
+
+	public static GameHandler instanceOf() {
 		if (instance == null) {
-			instance = new GameController();
+			instance = new GameHandler();
 		}
 		return instance;
 	}
 
-	
+
+	//TODO make this actually a singleton, or remove it from being a singleton
+	public GameHandler(Looper looper) {
+		instance = this;
+	}
+
+
 	/**
 	 * Private constructor singleton
 	 */
-	private GameController() {
-		
+	private GameHandler() {
 	}
 
 	public void setContextAndSetupController(Context context) {
@@ -48,17 +58,17 @@ public class GameController {
 				changeBet(v);
 			}
 		});
-		
-		editNameButton = (ImageButton) context.findViewById(R.id.editNameButton);
+
+		editNameButton = (ImageButton) context
+				.findViewById(R.id.editNameButton);
 		editNameButton.setOnClickListener(new View.OnClickListener() {
 			public void onClick(View v) {
 				editName(v);
 			}
 
 		});
-		
-	}
 
+	}
 
 	private void editName(View v) {
 		if (!isDialogDisplayed) {
@@ -67,7 +77,7 @@ public class GameController {
 		}
 		isDialogDisplayed = false;
 	}
-	
+
 	private void changeBet(View view) {
 		BetColor color = GameModel.instanceOf().changeBet();
 		Button button = (Button) context.findViewById(R.id.bettingDirection);
@@ -78,30 +88,16 @@ public class GameController {
 		}
 	}
 
-	public void displayBetStatus() {
-		TextView displayResults = (TextView) context
-				.findViewById(R.id.latestResults);
-		switch (GameModel.instanceOf().getMostRecentBetStatus()) {
-		case RED_WINS:
-			displayResults.setBackgroundColor(Color.parseColor("#0000FF"));
-			displayResults.setText("Red Wins");
-			break;
-		case BLUE_WINS:
-			displayResults.setBackgroundColor(Color.parseColor("#FF0000"));
-			displayResults.setText("Blue Wins");
-			break;
-
-		default:
-			displayResults.setBackgroundColor(Color.parseColor("#CCCCCC"));
-			displayResults.setText("Match is currently "
-					+ GameModel.instanceOf().getMostRecentBetStatus()
-							.toString());
-		}
-	}
 
 	public void displayOpponent(View view, String opponentName) {
 		TextView opponentNameText = (TextView) context
 				.findViewById(R.id.opponentName);
 		opponentNameText.setText(opponentName);
+	}
+
+
+	public void updateBetStatus() {
+		Activity activity = (Activity) context;
+		activity.runOnUiThread(new updateBetStatusThread(activity));
 	}
 }

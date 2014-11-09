@@ -15,6 +15,8 @@ import android.graphics.Color;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Looper;
 import android.view.View;
 import android.widget.Button;
 import android.widget.MediaController;
@@ -30,11 +32,12 @@ import android.widget.VideoView;
 public class SaltyDrinker extends Activity {
 	protected static final String TAG = "Salty";
 	private String twitchStreamURL;
+	public Handler resultHandler;
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_salty_drinker);
-		GameController.instanceOf().setContextAndSetupController(this);
+		GameHandler.instanceOf().setContextAndSetupController(this);
 		ViewController.instanceOf().setContext(this);
 		
 		 try {
@@ -54,7 +57,7 @@ public class SaltyDrinker extends Activity {
 		  videoView.requestFocus();
 		  videoView.start();
 		  try {
-			Client client = new Client("192.168.0.100", 11112);
+			Client client = new Client("192.168.0.102", 11112);
 			client.execute();
 		} catch (IOException e) {
 			e.printStackTrace();

@@ -21,7 +21,7 @@ public class ConnectionToServer {
          this.socket = socket;
          out =new ObjectOutputStream(socket.getOutputStream());
          in = new ObjectInputStream(socket.getInputStream());
-
+         
 
          Thread read = new Thread(){
              public void run(){

@@ -1,4 +1,4 @@
-	<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -6,6 +6,13 @@
     android:orientation="vertical"
     tools:context=".SaltyDrinker" >
 
+    <include
+        android:id="@+id/headerMenu"
+        android:layout_width="wrap_content"
+        android:layout_height="0dp"
+        layout="@layout/headermenu" 
+        android:layout_weight="0.1"/>
+     
     <VideoView
         android:id="@+id/twitchVideo"
         android:layout_width="wrap_content"
@@ -13,15 +20,35 @@
         android:layout_gravity="center"
         android:layout_weight="0.5" />
 
-	 <Button
-	     android:id="@+id/bettingDirection"
-     	 android:layout_height="0dp"
-         android:layout_width="fill_parent"
-         android:text="MYBOY"
-         android:onClick="changeBet"
-         android:background="#FF0000"
-         android:layout_weight="0.1" />
-
+    <TextView
+        android:id="@+id/latestResults"
+        android:layout_width="fill_parent"
+        android:layout_height="0dp"
+        android:layout_weight="0.03"
+        android:background="#CCCCCC"
+        android:text="This right?"
+        android:textColor="#FFFFFF"
+        android:gravity="center"/>
 
     
+    <Button
+        android:id="@+id/bettingDirection"
+        android:layout_width="fill_parent"
+        android:layout_height="0dp"
+        android:layout_weight="0.1"
+        android:background="#FF0000"
+        android:text="MYBOY" />
+
+    <TextView
+        android:id="@+id/opponentName"
+        android:layout_width="fill_parent"
+        android:layout_height="0dp"
+        android:layout_weight="0.1" />
+
+    <TextView
+        android:id="@+id/matchStatus"
+        android:layout_width="fill_parent"
+        android:layout_height="0dp"
+        android:layout_weight="0.1" />
+
 </LinearLayout>

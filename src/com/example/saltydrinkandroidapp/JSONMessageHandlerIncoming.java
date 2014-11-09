@@ -34,6 +34,9 @@ public class JSONMessageHandlerIncoming {
 				 break;
 			case OPPONENT_BID:
 				parseOpponentBid(response);
+				break;
+			case BID_RESPONSE:
+				break;
 			default:
 				//TODO log
 				throw new JSONException("JSON did not contain a response the handler understands.");
@@ -61,6 +64,7 @@ public class JSONMessageHandlerIncoming {
 
 	private static void parseToken(JSONObject response) throws JSONException {
 		Client.setToken(response.getString("token"));
+		JSONMessageHandlerOutgoing.sendRoomRequestToServer("Testing", (long) 1);
 		GameModel.instanceOf().setupInitialGameState();
 	}
 

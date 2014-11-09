@@ -9,6 +9,9 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import android.app.Activity;
+import android.content.Context;
+
 public class GameModel {
 	static GameModel instance;
 	BetColor color = BetColor.RED;
@@ -32,19 +35,12 @@ public class GameModel {
 	}
 
 	private GameModel() {
-		try {
-			JSONMessageHandlerOutgoing.sendRoomRequestToServer(playerUsername, gameId);
-		} catch (JSONException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
 	}
-
 
 
 	public void updateBetStatus(ResultType status) {
 		mostRecentBetStatus = status;
-		GameController.instanceOf().displayBetStatus();
+		GameHandler.instanceOf().updateBetStatus();
 	}
 
 	public void createPlayerList(JSONArray listOfPlayers) throws JSONException {

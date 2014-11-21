@@ -15,7 +15,7 @@ import android.content.Context;
 public class GameModel {
 	static GameModel instance;
 	BetColor color = BetColor.RED;
-	int betAmount = 1;
+	private long betAmount = 1;
 	Set<String> players = new HashSet<String>();
 	boolean isBettingLocked = false;
 	ResultType mostRecentBetStatus = ResultType.CLOSED;
@@ -24,8 +24,8 @@ public class GameModel {
 	//TODO these should be setup and come from elsewhere
 	private long gameId = 1;
 	private String playerUsername = "Player";
-	private int opponentBetAmount = 0;
-	private BetColor opponentBetColor = BetColor.UNKNOWN;
+	int opponentBetAmount = 0;
+	BetColor opponentBetColor = BetColor.UNKNOWN;
 	
 	public static GameModel instanceOf() {
 		if (instance == null) {
@@ -40,7 +40,6 @@ public class GameModel {
 
 	public void updateBetStatus(ResultType status) {
 		mostRecentBetStatus = status;
-		GameHandler.instanceOf().updateBetStatus();
 	}
 
 	public void createPlayerList(JSONArray listOfPlayers) throws JSONException {
@@ -67,7 +66,6 @@ public class GameModel {
 		case CANCELED:
 			break;
 		case CLOSED:
-			lockBets();
 			JSONMessageHandlerOutgoing.sendBetResponseToServer(color, betAmount, gameId);
 			break;
 		case OPEN:
@@ -82,17 +80,15 @@ public class GameModel {
 		default:
 			break;
 		}
-		// TODO updated response on UI goes here
+		updateBetStatus(result);
 		
 	}
+
 
 	private void resetBets() {
 		isBettingLocked = false;
 		color = BetColor.RED;
 		betAmount = 1;
-		// Update on mainpage
-		// TODO Auto-generated method stub
-
 	}
 
 	private void displayWinner(ResultType result) {
@@ -125,7 +121,7 @@ public class GameModel {
 	}
 
 
-	public int getBetAmount() {
+	public long getBetAmount() {
 		return betAmount;
 	}
 
@@ -148,5 +144,9 @@ public class GameModel {
 	public void setPlayerUsername(String name) throws JSONException {
 		playerUsername = name;	
 		JSONMessageHandlerOutgoing.sendNameUpdateRequestToServer(playerUsername, gameId);
+	}
+
+	public void setBetAmount(long value) {
+		betAmount = value;
 	}
 }

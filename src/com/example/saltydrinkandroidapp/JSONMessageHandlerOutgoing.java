@@ -14,7 +14,7 @@ public class JSONMessageHandlerOutgoing {
 	 * @param gameId of game player wishes to best against
 	 * @throws JSONException
 	 */
-	public static void sendBetResponseToServer(BetColor color, int betAmount, long gameId) throws JSONException {
+	public static void sendBetResponseToServer(BetColor color, long betAmount, long gameId) throws JSONException {
 		JSONObject response = new JSONObject();
 		response.put("type", "BET");
 		response.put("betColor", color.toString());

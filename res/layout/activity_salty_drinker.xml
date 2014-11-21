@@ -10,9 +10,9 @@
         android:id="@+id/headerMenu"
         android:layout_width="wrap_content"
         android:layout_height="0dp"
-        layout="@layout/headermenu" 
-        android:layout_weight="0.1"/>
-     
+        android:layout_weight="0.1"
+        layout="@layout/headermenu" />
+
     <VideoView
         android:id="@+id/twitchVideo"
         android:layout_width="wrap_content"
@@ -26,29 +26,36 @@
         android:layout_height="0dp"
         android:layout_weight="0.03"
         android:background="#CCCCCC"
-        android:text="This right?"
-        android:textColor="#FFFFFF"
-        android:gravity="center"/>
+        android:gravity="center"
+        android:text="Connecting..."
+        android:textColor="#FFFFFF" />
 
-    
-    <Button
-        android:id="@+id/bettingDirection"
+    <include
+        android:id="@+id/bet_bar_fragment"
         android:layout_width="fill_parent"
         android:layout_height="0dp"
-        android:layout_weight="0.1"
-        android:background="#FF0000"
-        android:text="MYBOY" />
+        android:layout_weight="0.25"
+        layout="@layout/bet_bar_fragment" />
 
     <TextView
         android:id="@+id/opponentName"
         android:layout_width="fill_parent"
         android:layout_height="0dp"
-        android:layout_weight="0.1" />
+        android:layout_weight="0.1"
+        android:text="An Opponnent" />
 
     <TextView
-        android:id="@+id/matchStatus"
+        android:id="@+id/opponentBidColor"
         android:layout_width="fill_parent"
         android:layout_height="0dp"
-        android:layout_weight="0.1" />
+        android:layout_weight="0.1"
+        android:text=" Color " />
+
+    <TextView
+        android:id="@+id/opponentBidAmount"
+        android:layout_width="fill_parent"
+        android:layout_height="0dp"
+        android:layout_weight="0.1"
+        android:text=" an amount " />
 
 </LinearLayout>

@@ -23,6 +23,9 @@ public class GameHandler {
 	static GameHandler instance;
 	private Activity context;
 	private Button changeBetButton;
+	private Button selectBet1Button;
+	private Button selectBet2Button;
+	private Button selectBet3Button;
 	private ImageButton editNameButton;
 	private boolean isDialogDisplayed = false;
 
@@ -33,12 +36,10 @@ public class GameHandler {
 		return instance;
 	}
 
-
-	//TODO make this actually a singleton, or remove it from being a singleton
+	// TODO make this actually a singleton, or remove it from being a singleton
 	public GameHandler(Looper looper) {
 		instance = this;
 	}
-
 
 	/**
 	 * Private constructor singleton
@@ -68,6 +69,42 @@ public class GameHandler {
 
 		});
 
+		selectBet1Button = (Button) context.findViewById(R.id.bettting1Drink);
+		selectBet2Button = (Button) context.findViewById(R.id.bettting2Drink);
+		selectBet3Button = (Button) context.findViewById(R.id.bettting3Drink);
+
+		//On init is yellow
+		selectBet1Button.setBackgroundColor(Color.parseColor("#ffd700"));
+		
+		selectBet1Button.setOnClickListener(new View.OnClickListener() {
+
+			public void onClick(View v) {
+				setBet(1);
+				selectBet1Button.setBackgroundColor(Color.parseColor("#ffd700"));
+				setBidButtonBackgrounds(GameModel.instanceOf().color);
+			}
+
+		});
+
+		selectBet2Button.setOnClickListener(new View.OnClickListener() {
+
+			public void onClick(View v) {
+				setBet(2);
+				selectBet2Button.setBackgroundColor(Color.parseColor("#ffd700"));
+				setBidButtonBackgrounds(GameModel.instanceOf().color);
+			}
+
+		});
+
+		selectBet3Button.setOnClickListener(new View.OnClickListener() {
+
+			public void onClick(View v) {
+				setBet(3);
+				selectBet3Button.setBackgroundColor(Color.parseColor("#ffd700"));
+				setBidButtonBackgrounds(GameModel.instanceOf().color);
+			}
+
+		});
 	}
 
 	private void editName(View v) {
@@ -82,22 +119,60 @@ public class GameHandler {
 		BetColor color = GameModel.instanceOf().changeBet();
 		Button button = (Button) context.findViewById(R.id.bettingDirection);
 		if (color == BetColor.RED) {
+			setBidButtonBackgrounds(BetColor.RED);
 			button.setBackgroundColor(Color.parseColor("#FF0000"));
 		} else {
+			setBidButtonBackgrounds(BetColor.BLUE);
 			button.setBackgroundColor(Color.parseColor("#0000FF"));
 		}
 	}
 
-
-	public void displayOpponent(View view, String opponentName) {
-		TextView opponentNameText = (TextView) context
-				.findViewById(R.id.opponentName);
-		opponentNameText.setText(opponentName);
+	private void setBidButtonBackgrounds(BetColor color) {
+		long bid = GameModel.instanceOf().getBetAmount();
+		int backgroundColor = (color == BetColor.RED) ? Color.parseColor("#FF0000") : Color.parseColor("#0000FF");
+		((Button) context.findViewById(R.id.bettingDirection)).setBackgroundColor(backgroundColor);
+		if(bid != 1){
+			((Button) context.findViewById(R.id.bettting1Drink)).setBackgroundColor(backgroundColor);
+		}
+		
+		if(bid != 2){
+			((Button) context.findViewById(R.id.bettting2Drink)).setBackgroundColor(backgroundColor);
+		}
+		
+		if(bid != 3){
+			((Button) context.findViewById(R.id.bettting3Drink)).setBackgroundColor(backgroundColor);
+		}
 	}
-
-
+	
 	public void updateBetStatus() {
 		Activity activity = (Activity) context;
 		activity.runOnUiThread(new updateBetStatusThread(activity));
+	}
+
+	private void setBet(long value) {
+		GameModel.instanceOf().setBetAmount(value);
+
+	}
+
+	public void updateOpponentBetInfo() {
+		Activity activity = (Activity) context;
+		activity.runOnUiThread(new updateOpponentBetInfoThread(activity));
+		
+	}
+
+	public void startOpponentBetInfo() {
+		Activity activity = (Activity) context;
+		activity.runOnUiThread(new StartOpponentBetInfoThread(activity));
+	}
+
+	public void updatePlayerList() {
+		Activity activity = (Activity) context;
+		activity.runOnUiThread(new UpdatePlayerListThread(activity));
+		
+	}
+
+	public void updateMatchOutcome() {
+		Activity activity = (Activity) context;
+		activity.runOnUiThread(new UpdateMatchOutcomeThread(activity));
 	}
 }

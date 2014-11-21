@@ -57,7 +57,8 @@ public class SaltyDrinker extends Activity {
 		  videoView.requestFocus();
 		  videoView.start();
 		  try {
-			Client client = new Client("192.168.0.102", 11112);
+			Client client = new Client("192.168.0.101", 11112);
+			//Client client = new Client("130.215.9.198", 11112);
 			client.execute();
 		} catch (IOException e) {
 			e.printStackTrace();

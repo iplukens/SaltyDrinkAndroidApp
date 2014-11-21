@@ -1,0 +1,41 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content"
+    android:background="#ffffff"
+    android:orientation="horizontal"
+    tools:context=".SaltyDrinker" >
+
+    <Button
+        android:id="@+id/bettingDirection"
+        android:layout_height="wrap_content"
+        android:layout_width="0dp"
+        android:layout_weight="0.25"
+        android:background="#FF0000"
+        android:text="MYBOY" />
+
+    <Button
+        android:id="@+id/bettting1Drink"
+        android:layout_height="wrap_content"
+        android:layout_width="0dp"
+        android:layout_weight="0.25"
+        android:background="#FF0000"
+        android:text="1" />
+
+    <Button
+        android:id="@+id/bettting2Drink"
+        android:layout_height="wrap_content"
+        android:layout_width="0dp"
+        android:layout_weight="0.25"
+        android:background="#FF0000"
+        android:text="2" />
+
+    <Button
+        android:id="@+id/bettting3Drink"
+        android:layout_height="wrap_content"
+        android:layout_width="0dp"
+        android:layout_weight="0.25"
+        android:background="#FF0000"
+        android:text="3" />
+
+</LinearLayout>
